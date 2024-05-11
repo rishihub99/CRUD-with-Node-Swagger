@@ -46,13 +46,27 @@ router.use((request, response, next) => {
 /** GET Methods */
 /**
  * @openapi
- * '/api/details/':
- *  get:
+ * /api/details:
+ *   get:
  *     tags:
- *     - User Controller
- *     summary: Get all Employees
- *
+ *       - Employee Details
+ *     summary: Retrieve all employees
+ *     description: Get all employee details.
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Employee'
+ *       '404':
+ *         description: Not Found
+ *       '500':
+ *         description: Server Error
  */
+
 
 router.route("/details").get((request, response) => {
   dbOperations.getDetails().then((result) => {
@@ -64,18 +78,32 @@ router.route("/details").get((request, response) => {
 /** GET Methods */
 /**
  * @openapi
- * '/api/detail/{EmployeeID}':
- *  get:
+ * /api/detail/{EmployeeID}:
+ *   get:
  *     tags:
- *     - User Controller
- *     summary: Get a Employee by EmployeeID
+ *       - Employee Details
+ *     summary: Get an Employee by EmployeeID
  *     parameters:
- *      - name: EmployeeID
- *        in: path
- *        description: Get a Employee by EmployeeID
- *        required: true
+ *       - name: EmployeeID
+ *         in: path
+ *         description: ID of the Employee to retrieve
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employee'
+ *       '404':
+ *         description: Employee not found
+ *       '500':
+ *         description: Server Error
  */
-//userRouter.route('/:').get(controller.getUser) // user with username
+
+
 router.route("/detail/:EmployeeID").get((request, response) => {
   dbOperations.getDetail(request.params.EmployeeID).then((result) => {
     //console.log(result);
@@ -90,12 +118,12 @@ router.route("/detail/:EmployeeID").get((request, response) => {
      * '/api/delete/{EmployeeID}':
      *  delete:
      *     tags:
-     *     - User Controller
-     *     summary: Delete user by Id
+     *     - Employee Details
+     *     summary: Delete Employee Details by Employee Id
      *     parameters:
      *      - name: EmployeeID
      *        in: path
-     *        description: The unique Id of the user
+     *        description: The unique Id of the Employee
      *        required: true
      *     responses:
      *      200:
@@ -120,8 +148,8 @@ router.route("/delete/:EmployeeID").delete((request, response) => {
  * '/api/add/':
  *  post:
  *     tags:
- *     - User Controller
- *     summary: Create an user
+ *     - Employee Details
+ *     summary: Create an Employee Details
  *     requestBody:
  *      required: true
  *      content:
@@ -166,15 +194,15 @@ router.route("/add").post((request, response) => {
  * '/api/update/{EmployeeID}':
  *   put:
  *     tags:
- *       - User Controller
- *     summary: Modify a user
+ *       - Employee Details
+ *     summary: Modify an Employee Details
  *     parameters:
  *       - in: path
  *         name: EmployeeID
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of the user to be modified
+ *         description: The ID of the Employee to be modified
  *     requestBody:
  *       required: true
  *       content:
