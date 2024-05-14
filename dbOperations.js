@@ -1,3 +1,4 @@
+const { result } = require("lodash");
 var config = require("./dbConfig");
 const sql = require("mssql");
 
@@ -67,20 +68,22 @@ async function updateDetail(EmployeeId, data) {
   let column = [];
   let value = [];
   let isSuccess = false;
+  
   try {
-    for (i = 0; i < Object.keys(data).length; i++) {
+    for (let i = 0; i < Object.keys(data).length; i++) {
       column.push(Object.keys(data)[i]);
       value.push(Object.values(data)[i]);
     }
-    console.log(column, value);
+    
     let pool = await sql.connect(config);
     const request = pool.request();
-
-    for (i = 0; i < column.length; i++) {
+    let result;
+    for (let i = 0; i < column.length; i++) {
       let query = `UPDATE EmployeeDetails SET ${column[i]} = '${value[i]}' WHERE EmployeeID = '${EmployeeId}'`;
-      let result = await request.query(query);
+      result = await request.query(query);
     }
-    isSuccess = emp.rowsAffected > 0;
+    isSuccess=result.rowsAffected>0;
+    console.log(isSuccess);
     return isSuccess;
   } catch (error) {
     console.log(error);

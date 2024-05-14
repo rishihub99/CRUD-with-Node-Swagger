@@ -104,12 +104,17 @@ router.route("/details").get((request, response) => {
 
 router.route("/detail/:EmployeeID").get((request, response) => {
   dbOperations.getDetail(request.params.EmployeeID).then((result) => {
-    if (Object.keys(result.keys).length == 0) {
+    console.log(result);
+    if(result[0].length) {
+      response.json(result);  
+    } 
+    else {
       console.warn(`Employee with ID ${request.params.EmployeeID} not found`);
       response.status(404).json({ error: "Employee not found" });
-    } else response.json(result);
+    }
   });
 });
+
 
 /** DELETE Methods */
 /**
@@ -237,7 +242,7 @@ router.route("/update/:EmployeeID").put((request, response) => {
 
     
     if (result) {
-      response.json(result);
+      response.status(200).json({ error: "Employee modified" });
     } else {
       console.warn(`Employee with ID ${request.params.EmployeeID} not found`);
       response.status(404).json({ error: "Employee not found" });
