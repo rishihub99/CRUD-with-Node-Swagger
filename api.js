@@ -60,13 +60,12 @@ router.use((request, response, next) => {
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Employee'
+ *                 $ref: '#/components/schemas/Employees'
  *       '404':
  *         description: Not Found
  *       '500':
  *         description: Server Error
  */
-
 
 router.route("/details").get((request, response) => {
   dbOperations.getDetails().then((result) => {
@@ -96,49 +95,54 @@ router.route("/details").get((request, response) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Employee'
+ *               $ref: '#/components/schemas/Employees'
  *       '404':
  *         description: Employee not found
  *       '500':
  *         description: Server Error
  */
 
-
 router.route("/detail/:EmployeeID").get((request, response) => {
   dbOperations.getDetail(request.params.EmployeeID).then((result) => {
-    //console.log(result);
-    response.json(result);
+    if (Object.keys(result.keys).length == 0) {
+      console.warn(`Employee with ID ${request.params.EmployeeID} not found`);
+      response.status(404).json({ error: "Employee not found" });
+    } else response.json(result);
   });
 });
 
-
 /** DELETE Methods */
-    /**
-     * @openapi
-     * '/api/delete/{EmployeeID}':
-     *  delete:
-     *     tags:
-     *     - Employee Details
-     *     summary: Delete Employee Details by Employee Id
-     *     parameters:
-     *      - name: EmployeeID
-     *        in: path
-     *        description: The unique Id of the Employee
-     *        required: true
-     *     responses:
-     *      200:
-     *        description: Removed
-     *      400:
-     *        description: Bad request
-     *      404:
-     *        description: Not Found
-     *      500:
-     *        description: Server Error
-     */
+/**
+ * @openapi
+ * '/api/delete/{EmployeeID}':
+ *  delete:
+ *     tags:
+ *     - Employee Details
+ *     summary: Delete Employee Details by Employee Id
+ *     parameters:
+ *      - name: EmployeeID
+ *        in: path
+ *        description: The unique Id of the Employee
+ *        required: true
+ *     responses:
+ *      200:
+ *        description: Removed
+ *      400:
+ *        description: Bad request
+ *      404:
+ *        description: Employee Not Found
+ *      500:
+ *        description: Server Error
+ */
 router.route("/delete/:EmployeeID").delete((request, response) => {
   dbOperations.deleteDetail(request.params.EmployeeID).then((result) => {
-    //console.log(result);
-    response.json(result);
+    console.log("api.js,deleteDetail", result);
+    if (result) {
+      response.json(result);
+    } else {
+      console.warn(`Employee with ID ${request.params.EmployeeID} not found`);
+      response.status(404).json({ error: "Employee not found" });
+    }
   });
 });
 
@@ -227,12 +231,16 @@ router.route("/add").post((request, response) => {
 
 router.route("/update/:EmployeeID").put((request, response) => {
   const data = request.body;
-  
 
-  dbOperations
-    .updateDetail(request.params.EmployeeID, data)
-    .then((result) => {
-      //console.log(result);
+  dbOperations.updateDetail(request.params.EmployeeID, data).then((result) => {
+    //console.log(result);
+
+    
+    if (result) {
       response.json(result);
-    });
+    } else {
+      console.warn(`Employee with ID ${request.params.EmployeeID} not found`);
+      response.status(404).json({ error: "Employee not found" });
+    }
+  });
 });
