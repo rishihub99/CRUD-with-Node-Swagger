@@ -13,7 +13,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/api", router);
+app.use("/employee", router);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000...");
@@ -46,7 +46,7 @@ router.use((request, response, next) => {
 /** GET Methods */
 /**
  * @openapi
- * /api/details:
+ * /employee/details:
  *   get:
  *     tags:
  *       - Employee Details
@@ -77,7 +77,7 @@ router.route("/details").get((request, response) => {
 /** GET Methods */
 /**
  * @openapi
- * /api/detail/{EmployeeID}:
+ * /employee/detail/{EmployeeID}:
  *   get:
  *     tags:
  *       - Employee Details
@@ -119,7 +119,7 @@ router.route("/detail/:EmployeeID").get((request, response) => {
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/delete/{EmployeeID}':
+ * '/employee/delete/{EmployeeID}':
  *  delete:
  *     tags:
  *     - Employee Details
@@ -154,7 +154,7 @@ router.route("/delete/:EmployeeID").delete((request, response) => {
 /** POST Methods */
 /**
  * @openapi
- * '/api/add/':
+ * '/employee/add/':
  *  post:
  *     tags:
  *     - Employee Details
@@ -200,7 +200,7 @@ router.route("/add").post((request, response) => {
 /** PUT Methods */
 /**
  * @openapi
- * '/api/update/{EmployeeID}':
+ * '/employee/update/{EmployeeID}':
  *   put:
  *     tags:
  *       - Employee Details
