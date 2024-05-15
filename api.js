@@ -13,7 +13,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/employee", router);
+app.use("/", router);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000...");
@@ -46,7 +46,7 @@ router.use((request, response, next) => {
 /** GET Methods */
 /**
  * @openapi
- * /employee/details:
+ * /employee:
  *   get:
  *     tags:
  *       - Employee Details
@@ -67,7 +67,7 @@ router.use((request, response, next) => {
  *         description: Server Error
  */
 
-router.route("/details").get((request, response) => {
+router.route("/employee").get((request, response) => {
   dbOperations.getDetails().then((result) => {
     //console.log(result);
     response.json(result[0]);
@@ -77,7 +77,7 @@ router.route("/details").get((request, response) => {
 /** GET Methods */
 /**
  * @openapi
- * /employee/detail/{EmployeeID}:
+ * /employee/{EmployeeID}:
  *   get:
  *     tags:
  *       - Employee Details
@@ -102,7 +102,7 @@ router.route("/details").get((request, response) => {
  *         description: Server Error
  */
 
-router.route("/detail/:EmployeeID").get((request, response) => {
+router.route("/employee/:EmployeeID").get((request, response) => {
   dbOperations.getDetail(request.params.EmployeeID).then((result) => {
     console.log(result);
     if(result[0].length) {
@@ -119,7 +119,7 @@ router.route("/detail/:EmployeeID").get((request, response) => {
 /** DELETE Methods */
 /**
  * @openapi
- * '/employee/delete/{EmployeeID}':
+ * '/employee/{EmployeeID}':
  *  delete:
  *     tags:
  *     - Employee Details
@@ -139,7 +139,7 @@ router.route("/detail/:EmployeeID").get((request, response) => {
  *      500:
  *        description: Server Error
  */
-router.route("/delete/:EmployeeID").delete((request, response) => {
+router.route("employee/:EmployeeID").delete((request, response) => {
   dbOperations.deleteDetail(request.params.EmployeeID).then((result) => {
     console.log("api.js,deleteDetail", result);
     if (result) {
@@ -154,7 +154,7 @@ router.route("/delete/:EmployeeID").delete((request, response) => {
 /** POST Methods */
 /**
  * @openapi
- * '/employee/add/':
+ * '/employee':
  *  post:
  *     tags:
  *     - Employee Details
@@ -189,7 +189,7 @@ router.route("/delete/:EmployeeID").delete((request, response) => {
  *      500:
  *        description: Server Error
  */
-router.route("/add").post((request, response) => {
+router.route("/employee").post((request, response) => {
   let emp = { ...request.body };
 
   dbOperations.addDetail(emp).then((result) => {
@@ -200,7 +200,7 @@ router.route("/add").post((request, response) => {
 /** PUT Methods */
 /**
  * @openapi
- * '/employee/update/{EmployeeID}':
+ * '/employee/{EmployeeID}':
  *   put:
  *     tags:
  *       - Employee Details
@@ -234,7 +234,7 @@ router.route("/add").post((request, response) => {
  *         description: Server Error
  */
 
-router.route("/update/:EmployeeID").put((request, response) => {
+router.route("/employee/:EmployeeID").put((request, response) => {
   const data = request.body;
 
   dbOperations.updateDetail(request.params.EmployeeID, data).then((result) => {
