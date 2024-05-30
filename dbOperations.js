@@ -2,6 +2,8 @@ const { result } = require("lodash");
 var config = require("./dbConfig");
 const sql = require("mssql");
 
+
+
 async function getDetails() {
   try {
     let pool = await sql.connect(config);
@@ -91,10 +93,35 @@ async function updateDetail(EmployeeId, data) {
   }
 }
 
+
+async function getUserByEmpID(EmployeeID) {
+  try {
+    
+    let pool = await sql.connect(config);
+    let b = await pool
+      .request()
+      .input("EmployeeID", sql.NVarChar, EmployeeID)
+      .query(
+        "SELECT * FROM EmployeeDetails WHERE EmployeeID = @EmployeeID"
+      );
+      console.log(b.rowsAffected);
+    if(b.rowsAffected[1]==0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error; // Optionally re-throw the error after logging it
+  }
+}
+
 module.exports = {
   getDetails: getDetails,
   getDetail: getDetail,
   deleteDetail: deleteDetail,
   addDetail: addDetail,
   updateDetail: updateDetail,
+  getUserByEmpID: getUserByEmpID,
 };
