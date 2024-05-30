@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+        body{
+            font-family: "Segoe UI", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Log In</title>
+  </head>
+  <body>
+    <h1>Log In</h1>
+    <form action="/userlogin" method="post" name="login" id="login">
+        <label>Enter Email ID</label>
+        <input type="email", required name="EmailID" id="EmailID">
+        <label>Enter Your password</label>
+        <input type="password", required name="Password" id="Password">
+        
+        <button type="submit">Login</button>
+    </form>
+  </body>
+</html>

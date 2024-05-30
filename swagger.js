@@ -8,6 +8,18 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: "An Employee API Application",
     },
+    components: {
+        securitySchemes: {
+            bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+            }
+        }
+    },
+    security: [{
+        bearerAuth: []
+    }],
     servers: [
         {
             url: "http://localhost:3000/",

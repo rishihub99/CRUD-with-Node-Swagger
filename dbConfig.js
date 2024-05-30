@@ -1,10 +1,10 @@
 var config = {
     
     //type: "default",
-    user: "sqladministrator", // Update with your username
+    user: "sqladmin", // Update with your username
     password: "P@ssw0rd1234", // Update with your password
-    server: "nodepoc0001.database.windows.net", // Update with your server name
-    database: "employee",// Update with your database name
+    server: "employee-db001.database.windows.net", // Update with your server name
+    database: "sqldb-employeedb",// Update with your database name
     
     options: {
       encrypt: true, // For Microsoft Azure

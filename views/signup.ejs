@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+        body{
+            font-family: "Segoe UI", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Signup</title>
+  </head>
+  <body>
+    <h1>Signup</h1>
+    <form action="/usersignup" method="post" name="signup" id="signup">
+        <label>Enter Employee ID</label>
+        <input type="text", required name="EmployeeID" id="EmployeeID">
+        <label>Enter Email ID</label>
+        <input type="email", required name="EmailID" id="EmailID">
+        <label>Enter Your password</label>
+        <input type="password", required name="Password" id="Password">
+        
+        <button type="submit">Signup</button>
+    </form>
+  </body>
+</html>
